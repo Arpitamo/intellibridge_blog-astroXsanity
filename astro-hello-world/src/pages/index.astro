@@ -1,25 +1,90 @@
 ---
 import '../styles/global.css';
-// Component Imports
-import Button from '../components/Button.astro';
+import { sanityClient } from "sanity:client"; 
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+// Fetch the posts from Sanity
+const posts = await sanityClient.fetch(`*[_type == "posts"] | order(publishedAt desc)`);
+
+const today = new Date();
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>Intellibridge Blog</title>
+    </head>
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
+    <body class="bg-gray-50 flex flex-col min-h-screen">
+        <nav class="bg-white shadow-sm border-b p-4">
+            <div class="max-w-5xl mx-auto flex justify-between items-center">
+                <a href="/" class="font-bold text-xl text-blue-600">Intellibridge</a>
+                <div class="space-x-6">
+                    <a href="/posts" class="hover:text-blue-500 font-medium">Blog</a>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="max-w-5xl mx-auto p-8 flex-grow flex flex-col items-center justify-center">
+    <header class="mb-12 text-center">
+        <h1 class="text-4xl font-extrabold mb-4 text-gray-900">
+            Welcome to Intellibridge Blog Page.
+        </h1>
+    </header>
+
+    <a href="/posts" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition inline-block">
+        Read Our Blog
+    </a>
+</main>
+
+        <footer>
+            &copy; {today.getFullYear()} Intellibridge. All rights reserved.
+
+            <div class="flex-container">
+                <div class="social-box-row">
+                    <a href="https://www.linkedin.com/company/109043387" target="_blank" class="social-button">in</a>
+                    <a href="https://x.com/PixSysAI" target="_blank" class="social-button">tw</a>
+                    <a href="https://www.facebook.com/share/1LFxWTqaS4/" target="_blank" class="social-button">f</a>
+                    <a href="https://www.instagram.com/intellibridge_official?igsh=ejAwOWZyMHgwbGY=" target="_blank" class="social-button">ig</a>
+                </div>
+            </div>
+        </footer>
+
+        <style>
+            footer {
+                padding: 3em 1em;
+                background: white;
+                color: #4b5563;
+                text-align: center;
+                border-top: 1px solid #e5e7eb;
+            }
+            .flex-container {
+                display: flex;
+                justify-content: center;
+                padding-top: 1rem;
+            }
+            .social-box-row {
+                display: flex;
+                gap: 1rem;
+            }
+            .social-button {
+                width: 2.5rem;
+                height: 2.5rem;
+                background-color: #1f2937;
+                border-radius: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                text-decoration: none;
+                transition: background-color 0.2s;
+                font-weight: bold;
+                font-family: sans-serif;
+            }
+            .social-button:hover {
+                background-color: #374151;
+            }
+        </style>
+    </body>
 </html>
